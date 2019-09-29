@@ -39,3 +39,31 @@ class Customer
     film_data = SqlRunner.run(sql, values)
     return Film.map_items(film_data)
   end
+
+  def tickets()
+    sql = "SELECT * FROM tickets WHERE customer_id = $1"
+    values = [@id]
+    ticket_data = SqlRunner.run(sql, values)
+    return ticket_data.map{|ticket| Ticket.new(ticket)}
+  end
+
+  def self.all()
+    sql = "SELECT * FROM customers"
+    customer_data = SqlRunner.run(sql)
+    return Customer.map_items(customer_data)
+  end
+
+  def self.delete_all()
+    sql = "DELETE FROM customers"
+    SqlRunner.run(sql)
+  end
+
+  def self.map_items(data)
+    result = data.map{|customer| Customer.new(customer)}
+    return result
+  end
+
+
+
+
+end
